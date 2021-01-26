@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Montserrat font -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <!-- D3 reference for Alchemy -->
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min.js"></script>
+        <!-- Alchemy references -->
+        <link rel="stylesheet" href="/0.4.1/alchemy.css">
+        <!-- Socket IO reference -->
+        <script src="/socket.io/socket.io.js"></script>
+        <!-- Own css -->
+        <link rel="stylesheet" href="styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GraphCode</title>
+    </head>
+    <body style="padding:0px;margin:0px;z-index: -1;">
+        <div class="fixed-header">
+            <div class="container">
+                <nav>
+                    <a href="#">About</a>
+                    <a href="#">Competitions</a>
+                    <a href="#">Leaderboard</a>
+                    <a href="/login">Login</a>
+                </nav>
+            </div>
+        </div>
+        <div id="alchemy" width="400" height="400"></canvas>
+        <script src="/0.4.1/scripts/vendor.js"></script>
+        <script src="/0.4.1/alchemy.js"></script>
+        <script src="client.js"></script>
+       
+    </body>
+</html>

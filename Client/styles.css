@@ -1,0 +1,30 @@
+text {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.container{
+    margin: 0 auto; /* Center the DIV horizontally */
+}
+nav a{
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 20px;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    transition: 0.3s;
+}
+
+nav a:hover{
+    transform: rotate(2deg);
+}
+
+.fixed-header{
+    width: 100%;
+    position: fixed;        
+    background: #105bcc;
+    padding: 10px 0;
+    color: #fff;
+    z-index: 1;
+    top: 0;
+}
