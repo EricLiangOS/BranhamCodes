@@ -62,7 +62,7 @@ class db_manager {
             await User.create({
                 name:username,
                 avatar_url:url,
-                problems:"",
+                problems:"[1,2,3,4]",
                 user_string:user_str
             })
         }
@@ -87,6 +87,22 @@ class db_manager {
         else{
             return user[0].user_string
         }
+    }
+    
+    //gets problems of a user
+    async get_user_problems(usr_string){
+        const user = await User.findAll({
+            where:{
+              user_string:usr_string
+            },
+            raw:true
+        })
+        var problems = [1];
+        if (user.length == 0){
+            return problems;
+        }
+        problems = JSON.parse(user[0].problems);
+        return problems;
     }
 }
 
