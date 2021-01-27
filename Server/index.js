@@ -9,7 +9,8 @@ const clientPath = `${__dirname}/../Client`;
 const clientId = process.env.GITHUB_ID;
 const clientSecret = process.env.GITHUB_SECRET;
 const axios = require('axios');
-const db_manager = require("./database.js")
+const db_manager = require("./database.js");
+const { add_user_problem } = require('./database.js');
 db_manager.debug()
 var problems = fs.readFileSync('problems.txt','utf-8').split("\n")
 app.use(express.static(clientPath));

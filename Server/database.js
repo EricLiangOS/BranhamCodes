@@ -99,10 +99,24 @@ class db_manager {
         })
         var problems = [1];
         if (user.length == 0){
-            return problems;
+            return problems
         }
         problems = JSON.parse(user[0].problems);
-        return problems;
+        return problems
+    }
+
+    async add_user_problem(usr_string, number){
+        const user = await User.findAll({
+            where:{
+              user_string:usr_string
+            }
+        })
+        if (user.length != 0){
+            var problems = JSON.parse(user[0].problems)
+            problems.push(number)
+            user[0].problems = JSON.stringify(problems)
+            await user[0].save()
+        }
     }
 }
 
