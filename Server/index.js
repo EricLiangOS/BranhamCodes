@@ -65,7 +65,7 @@ app.get('/oauth-callback', (req, res) => {
 io.on('connection', function (socket) {
     socket.on('get_user_problems',async (user_string)=>{
         var graph = new Array(100).fill(0).map(()=>new Array());
-        if (user_string != 'guest'){
+        if (await db_manager.check_user_string(user_string)){
             var unlocked_problems = (await db_manager.get_user_problems(user_string)).map(x => x.toString());
             for (var x = 0; x < problems.length; x++){
                 var root = problems[x].split(":")[0];

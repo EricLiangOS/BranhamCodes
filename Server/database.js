@@ -105,6 +105,7 @@ class db_manager {
         return problems
     }
 
+    //add a problem to the user on solve
     async add_user_problem(usr_string, number){
         const user = await User.findAll({
             where:{
@@ -117,6 +118,16 @@ class db_manager {
             user[0].problems = JSON.stringify(problems)
             await user[0].save()
         }
+    }
+
+    //tests if a user string exists
+    async check_user_string(usr_string){
+        const user = await User.findAll({
+            where:{
+              user_string:usr_string
+            }
+        })
+        return user.length > 0;
     }
 }
 
