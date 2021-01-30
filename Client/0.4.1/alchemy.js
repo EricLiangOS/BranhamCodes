@@ -922,6 +922,10 @@
       },
       nodeClick: function(n) {
         var node;
+        //handle problem clicks
+        var problem = (n.id).toString()
+        console.log(problem)
+        window.location.replace(`/Problems/${problem}/${problem}.html`);
         if (d3.event.defaultPrevented) {
           return;
         }

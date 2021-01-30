@@ -105,23 +105,29 @@ function graphToJson(graph){
 }
 
 
+//check if user is logged in and send them their problems
 window.onload = function WindowLoad(event) {
-    const urlParams = new URLSearchParams(window.location.search)
-    const queryString = window.location.search;
-    console.log(queryString)
-    if(urlParams.get('user_string')){
-        console.log(urlParams.get('user_string'))
-        localStorage.setItem('user_string',urlParams.get('user_string'))
-        localStorage.setItem('avatar_url',urlParams.get('avatar_url'))
-        localStorage.setItem('username',urlParams.get('username'))
-        socket.emit("get_user_problems", urlParams.get('user_string'));
+    if (localStorage.getItem('user_string') != null){
+        socket.emit("get_user_problems", localStorage.getItem('user_string'));
     }
     else{
-        socket.emit("get_user_problems", "guest");
+        const urlParams = new URLSearchParams(window.location.search)
+        const queryString = window.location.search;
+        console.log(queryString)
+        if(urlParams.get('user_string')){
+            console.log(urlParams.get('user_string'))
+            localStorage.setItem('user_string',urlParams.get('user_string'))
+            localStorage.setItem('avatar_url',urlParams.get('avatar_url'))
+            localStorage.setItem('username',urlParams.get('username'))
+            socket.emit("get_user_problems", urlParams.get('user_string'));
+        }
+        else{
+            socket.emit("get_user_problems", "guest");
+        }
     }
 }
 
-
+//generate graph when user problems have been sent
 socket.on("get_user_problems", (user_graph)=>{
     graph = user_graph;
     jsonGraph = graphToJson(graph);
@@ -129,3 +135,8 @@ socket.on("get_user_problems", (user_graph)=>{
     alchemy.begin(config);
 })
 
+//handle problem clicks
+$(document).click(function(event) {
+    var text = $(event.target).text();
+    console.log(text)
+});
