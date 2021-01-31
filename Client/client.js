@@ -113,7 +113,6 @@ window.onload = function WindowLoad(event) {
     else{
         const urlParams = new URLSearchParams(window.location.search)
         const queryString = window.location.search;
-        console.log(queryString)
         if(urlParams.get('user_string')){
             console.log(urlParams.get('user_string'))
             localStorage.setItem('user_string',urlParams.get('user_string'))
@@ -123,6 +122,13 @@ window.onload = function WindowLoad(event) {
         }
         else{
             socket.emit("get_user_problems", "guest");
+        }
+    }
+    //handle problem submits
+    const urlParams = new URLSearchParams(window.location.search)
+    for (var key of urlParams.keys()){
+        if (key.substring(1) == "_submit"){
+            
         }
     }
 }
@@ -135,8 +141,5 @@ socket.on("get_user_problems", (user_graph)=>{
     alchemy.begin(config);
 })
 
-//handle problem clicks
-$(document).click(function(event) {
-    var text = $(event.target).text();
-    console.log(text)
-});
+
+
