@@ -62,7 +62,7 @@ class db_manager {
             await User.create({
                 name:username,
                 avatar_url:url,
-                problems:"[1,2,3,4]",
+                problems:"[]",
                 user_string:user_str
             })
         }
@@ -114,9 +114,12 @@ class db_manager {
         })
         if (user.length != 0){
             var problems = JSON.parse(user[0].problems)
-            problems.push(number)
-            user[0].problems = JSON.stringify(problems)
-            await user[0].save()
+            if (!problems.includes(number)){
+                console.log(number)
+                problems.push(number)
+                user[0].problems = JSON.stringify(problems)
+                await user[0].save()
+            }
         }
     }
 

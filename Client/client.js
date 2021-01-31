@@ -118,17 +118,26 @@ window.onload = function WindowLoad(event) {
             localStorage.setItem('user_string',urlParams.get('user_string'))
             localStorage.setItem('avatar_url',urlParams.get('avatar_url'))
             localStorage.setItem('username',urlParams.get('username'))
-            socket.emit("get_user_problems", urlParams.get('user_string'));
+            socket.emit("get_user_problems", urlParams.get('user_string'))
         }
         else{
-            socket.emit("get_user_problems", "guest");
+            socket.emit("get_user_problems", "guest")
         }
     }
     //handle problem submits
     const urlParams = new URLSearchParams(window.location.search)
     for (var key of urlParams.keys()){
         if (key.substring(1) == "_submit"){
-            
+            var user_string;
+            if(localStorage.getItem('user_string') != null){
+                user_string = localStorage.getItem('user_string')
+            }
+            else{
+                user_string = "guest"
+            }
+            var problem = parseInt(key)
+            var answer = urlParams.get(key)
+            socket.emit("submit_answer", {"problem":problem, "user_string":user_string, "answer":answer})
         }
     }
 }
@@ -139,6 +148,13 @@ socket.on("get_user_problems", (user_graph)=>{
     jsonGraph = graphToJson(graph);
     config.dataSource = jsonGraph;
     alchemy.begin(config);
+})
+
+//handle correct answer
+socket.on("correct", () =>{
+    //clear url parameters
+    window.history.pushState({}, document.title, "/");
+    location.reload()
 })
 
 

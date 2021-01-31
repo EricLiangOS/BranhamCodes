@@ -13,8 +13,18 @@ const db_manager = require("./database.js");
 const { add_user_problem } = require('./database.js');
 db_manager.debug()
 var problems = fs.readFileSync('problems.txt','utf-8').split("\n")
+var answers = (fs.readFileSync('answers.txt','utf-8').split("\n")).map(x => parseInt(x))
 app.use(express.static(clientPath));
 
+var total_graph = new Array(100).fill(0).map(()=>new Array());
+for (var x = 0; x < problems.length; x++){
+    console.log(problems[x])
+    var root = problems[x].split(":")[0];
+    var leaves = problems[x].split(":")[1].split(",");
+    for (var y = 0; y < leaves.length; y++){
+        total_graph[parseInt(root) - 1].push(leaves[y].trim());
+    }
+}
 
 //github login redirect
 app.get('/login', (req, res) => {
@@ -72,12 +82,40 @@ io.on('connection', function (socket) {
                 if (unlocked_problems.includes(root)){
                     var leaves = problems[x].split(":")[1].split(",");
                     for (var y = 0; y < leaves.length; y++){
-                        graph[parseInt(root) - 1].push(leaves[y].trim());
+                        if (unlocked_problems.includes(leaves[y].trim())){
+                            graph[parseInt(root) - 1].push(leaves[y].trim());
+                        }
                     }
                 }
             }
         }
         socket.emit("get_user_problems", graph);
+    })
+    socket.on("submit_answer", async (answer_object) => {
+        var user_string = answer_object.user_string
+        var problem = answer_object.problem
+        var answer = answer_object.answer
+        if (problem < answers.length && parseInt(answers[problem - 1]) == parseInt(answer)){
+            if (user_string == "guest"){
+                console.log("no")
+                socket.emit("correct_guest")
+            }
+            else{
+                //add new problems to the user
+                if (await db_manager.check_user_string(user_string)){
+                    console.log("yes")
+                    for (var x = 0; x < total_graph[problem - 1].length; x++){
+                        await db_manager.add_user_problem(user_string, total_graph[problem - 1][x])
+                    }
+                    await db_manager.add_user_problem(user_string, problem)
+                    //send corrent alert to the user and reload the page
+                    socket.emit("correct")
+                }
+            }
+        }
+        else{
+            socket.emit("wrong_answer")
+        }
     })
 })
 
