@@ -4,12 +4,12 @@ text {
 
 
 .container{
-    margin: 0 auto; /* Center the DIV horizontally */
+    
 }
 nav a{
     color: #fff;
     text-decoration: none;
-    padding: 7px 20px;
+    padding: 19px 20px;
     display: inline-block;
     font-family: 'Montserrat', sans-serif;
     transition: 0.3s;
@@ -27,4 +27,27 @@ nav a:hover{
     color: #fff;
     z-index: 1;
     top: 0;
+    display: flex;
+    justify-content: flex-start;
+}
+.user_info{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    padding-right: 10em;
+}
+
+#username{
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    margin: 20px;
+}
+
+#profile_pic{
+    margin-top: 8px;
+    object-fit: cover;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
 }

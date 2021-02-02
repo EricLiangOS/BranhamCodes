@@ -104,10 +104,16 @@ function graphToJson(graph){
     return jsonGraph;
 }
 
-
+//function to set user's profile image and name
+function set_name(name, link){
+    document.getElementById("username").innerHTML = name
+    document.getElementById("profile_pic").src = link
+    console.log(name, link)
+}
 //check if user is logged in and send them their problems
 window.onload = function WindowLoad(event) {
     if (localStorage.getItem('user_string') != null){
+        set_name(localStorage.getItem('username'), localStorage.getItem('avatar_url'))
         socket.emit("get_user_problems", localStorage.getItem('user_string'));
     }
     else{
@@ -118,6 +124,8 @@ window.onload = function WindowLoad(event) {
             localStorage.setItem('user_string',urlParams.get('user_string'))
             localStorage.setItem('avatar_url',urlParams.get('avatar_url'))
             localStorage.setItem('username',urlParams.get('username'))
+            console.log(urlParams.get('avatar_url'))
+            set_name(urlParams.get('username'), urlParams.get('avatar_url'))
             socket.emit("get_user_problems", urlParams.get('user_string'))
         }
         else{

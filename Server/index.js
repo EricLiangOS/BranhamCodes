@@ -62,7 +62,7 @@ app.get('/oauth-callback', (req, res) => {
                 await db_manager.print_users()
                 user_string = await db_manager.get_user_string(username)
                 console.log(username)
-                res.redirect(`/?username=${username}&avatar_url =${avatar_url}&user_string=${user_string}`);
+                res.redirect(`/?username=${username}&avatar_url=${avatar_url}&user_string=${user_string}`);
             })
             .catch(err => {
                 console.log(err);
