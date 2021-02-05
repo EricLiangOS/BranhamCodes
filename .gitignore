@@ -1,3 +1,3 @@
 .env
-Server/node_modules
-Server/answers.txt
+node_modules
+answers.txt
