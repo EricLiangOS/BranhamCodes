@@ -23,7 +23,11 @@ const User = sequelize.define('User', {
     user_string:{
         type: DataTypes.STRING,
         allowNull: false
-    }
+    },
+    //last time since user submitted a problem
+    last_submit:{
+        type: DataTypes.INTEGER
+    },
   }, {
     sequelize,
     modelName: 'User'
@@ -63,7 +67,8 @@ class db_manager {
                 name:username,
                 avatar_url:url,
                 problems:"[]",
-                user_string:user_str
+                user_string:user_str,
+                last_submit: 0
             })
         }
     }
@@ -105,6 +110,22 @@ class db_manager {
         return problems
     }
 
+    //check if a user has access to a problem
+    async check_user_problem(usr_string, number){
+        const user = await User.findAll({
+            where:{
+              user_string:usr_string
+            }
+        })
+        if (user.length != 0){
+            var problems = JSON.parse(user[0].problems)
+            if (problems.includes(number)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     //add a problem to the user on solve
     async add_user_problem(usr_string, number){
         const user = await User.findAll({
@@ -121,6 +142,23 @@ class db_manager {
                 await user[0].save()
             }
         }
+    }
+
+    //check if a user submitted a minute ago
+    async check_submit_time(usr_string, current_time){
+        const user = await User.findAll({
+            where:{
+              user_string:usr_string
+            }
+        })
+        if (user.length != 0){
+            if (Date.now() - user[0].last_submit >= 60000){
+                user[0].last_submit = Date.now()
+                await user[0].save()
+                return true
+            }
+        }
+        return false
     }
 
     //tests if a user string exists

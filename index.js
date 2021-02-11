@@ -97,19 +97,39 @@ io.on('connection', function (socket) {
         var answer = answer_object.answer
         if (problem < answers.length && parseInt(answers[problem - 1]) == parseInt(answer)){
             if (user_string == "guest"){
-                console.log("no")
                 socket.emit("correct_guest")
             }
             else{
-                //add new problems to the user
-                if (await db_manager.check_user_string(user_string)){
-                    console.log("yes")
-                    for (var x = 0; x < total_graph[problem - 1].length; x++){
-                        await db_manager.add_user_problem(user_string, total_graph[problem - 1][x])
+                //make sure the user hasn't submitted less the one minute ago
+                if (await db_manager.check_submit_time(user_string, Date.now())){
+                    //add new problems to the user
+                    if (await db_manager.check_user_string(user_string)){
+                        //make sure the user has the problem
+                        unlocked = false;
+                        for (var x = 0; x < problem; x++){
+                            if (total_graph[x].includes(problem.toString())){
+                                if (await db_manager.check_user_problem(user_string, x + 1)){
+                                    unlocked = true;
+                                }
+                            }
+                        }
+                        if (problem == 1){
+                            unlocked = true;
+                        }
+                        //if problem is unlocked then give it to the user
+                        if (unlocked){
+                            console.log(problem)
+                            for (var x = 0; x < total_graph[problem - 1].length; x++){
+                                await db_manager.add_user_problem(user_string, total_graph[problem - 1][x])
+                            }
+                            await db_manager.add_user_problem(user_string, problem)
+                            //send corrent alert to the user and reload the page
+                            socket.emit("correct")
+                        }
                     }
-                    await db_manager.add_user_problem(user_string, problem)
-                    //send corrent alert to the user and reload the page
-                    socket.emit("correct")
+                }
+                else{
+                    console.log("submitted too soon")
                 }
             }
         }
@@ -119,6 +139,6 @@ io.on('connection', function (socket) {
     })
 })
 
-server.listen(1234, () =>{
-    console.log(`Game started on ${process.env.PORT}`);
+server.listen(process.env.PORT, () =>{
+    console.log(`Server started on ${process.env.PORT}`);
 });
