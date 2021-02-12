@@ -1,0 +1,6 @@
+<h1 class="code-line" data-line-start=0 data-line-end=1 ><a id="Preface_0"></a>Preface</h1>
+<p class="has-line-data" data-line-start="2" data-line-end="3">Welcome to <em>The Trials of Bits and Bytes</em>, a choose your own adventure game full of programming puzzles to help sharpen your skills.  Work your way through problems, with branching paths determining which action you perform.</p>
+<p class="has-line-data" data-line-start="4" data-line-end="5">Inspired by <em>Advent of Code</em>, the problems in TTBB don’t require deep programming knowledge.  You can approach questions from any angle and even brute force the questions without even touching code, but each problem is guarenteed to have a programmable solution that can run in under 5 seconds.</p>
+<p class="has-line-data" data-line-start="6" data-line-end="7">You can test a few questions out to get the general feel of things, but feel free to create an account to keep track of your progress!</p>
+<p class="has-line-data" data-line-start="8" data-line-end="9">Feel free to contact us at <a href="mailto:cubethief9999@gmail.com">cubethief9999@gmail.com</a> for any questions, queries, or complaints, and most importantly, have fun!</p>
+<p class="has-line-data" data-line-start="10" data-line-end="11">Created by Oleks, Matt, and Eric</p>
